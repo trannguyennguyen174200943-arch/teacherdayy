@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chúc mừng ngày Nhà giáo Việt Nam 20/11</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #faf5ef 0%, #fff8ee 100%);
+    color: #3e2d1b;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 40px 20px 30px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #c45b2d;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .hero p {
+    color: #6b4f36;
+    font-size: 1.1rem;
+  }
+
+  .question-section {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .question-label {
+    display: block;
+    margin-bottom: 20px;
+    color: #6b4f36;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .subjects-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+  }
+
+  .subject-btn {
+    background: linear-gradient(180deg, #fff 0%, #faf5ef 100%);
+    border: 2px solid #f0d8b7;
+    padding: 14px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #5c4733;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .subject-btn:hover {
+    transform: translateY(-5px);
+    border-color: #c45b2d;
+    color: #c45b2d;
+  }
+
+  .subject-display {
+    max-width: 600px;
+    margin: 0 auto 28px;
+    padding: 30px;
+    background: linear-gradient(180deg, #fffefb, #fff8ee);
+    border-radius: 16px;
+    border: 2px solid #f3d4b3;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .subject-display img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    border: 2px solid rgba(196, 91, 45, 0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  /* Hiệu ứng nhấp nháy chữ */
+  .subject-message {
+    font-size: 1.2rem;
+    color: #4b3726;
+    margin-top: 20px;
+    line-height: 1.7;
+    letter-spacing: 0.03em; /* khoảng cách chữ */
+  }
+
+  .subject-message span {
+    display: inline-block;
+    animation: blink 2.5s ease-in-out infinite;
+    animation-fill-mode: both;
+  }
+
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.4; }
+  }
+
+  .subject-display[aria-hidden="true"] { display: none; }
+
+  /* Falling letters */
+  .falling-letter {
+    position: fixed;
+    font-size: 24px;
+    color: #c45b2d;
+    pointer-events: none;
+    animation: fall linear forwards;
+    z-index: 998;
+  }
+
+  @keyframes fall {
+    from { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Floating wish */
+  .floating-wish {
+    position: fixed;
+    font-size: 14px;
+    color: #6b4f36;
+    background: rgba(255,255,255,0.9);
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #f3d4b3;
+    animation: floatUp 4s ease-out forwards;
+    z-index: 999;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+    10%  { opacity: 1; transform: translateY(-10px) scale(1); }
+    85%  { opacity: 1; }
+    100% { transform: translateY(-100px) scale(0.8); opacity: 0; }
+  }
+
+  /* Nút bật/tắt nhạc */
+  .music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c45b2d, #e67e22);
+    border: 2px solid #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+    z-index: 1000;
+    transition: 0.3s;
+  }
+
+  .music-control:hover {
+    transform: scale(1.1);
+  }
+
+  .music-control.muted {
+    opacity: 0.6;
+    background: #6b4f36;
+  }
+
+  /* Hộp bật nhạc khi bị chặn */
+  .music-prompt {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  .music-prompt.hidden { display: none; }
+
+  .music-prompt-content {
+    background: #fff8ee;
+    padding: 30px 40px;
+    border-radius: 16px;
+    border: 2px solid #f3d4b3;
+    text-align: center;
+  }
+
+  .music-prompt-btn {
+    padding: 12px 28px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #c45b2d, #e39d5f);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+  <h1>🎉 Chúc mừng ngày Nhà giáo Việt Nam 20/11 🎉</h1>
+  <p>Tri ân những người thầy, người cô đáng kính</p>
+</div>
+
+<section class="question-section">
+  <label class="question-label">Nhân ngày 20/11 tập thể lớp 11/11 có đôi điều muốn gởi tới cô Phú.Chúc cô 20/11 vui vẻ,luôn khỏe mạnh và sẽ luôn nở nụ cười trên môi và đặc biệt thành công trên hành trình trồng người của mình </label>
+
+  <!-- CHỈ CÒN MÔN VẬT LÍ -->
+  <div class="subjects-grid" id="subjectsGrid">
+    <button class="subject-btn" data-subject-id="li">Cô Phú</button>
+  </div>
+</section>
+
+<div id="subjectDisplay" class="subject-display" aria-hidden="true"></div>
+
+<audio id="backgroundMusic" loop preload="auto">
+  <source src="audio.mp3" type="audio/mpeg" />
+</audio>
+
+<button id="musicToggle" class="music-control">🎵</button>
+
+<div id="musicPrompt" class="music-prompt hidden">
+  <div class="music-prompt-content">
+    <h3>🎵 Bật nhạc nền</h3>
+    <p>Nhấn nút bên dưới để phát nhạc</p>
+    <button class="music-prompt-btn" onclick="startMusicFromPrompt()">Phát nhạc</button>
+  </div>
+</div>
+
+<script>
+  // Subject data (CHỈ VẬT LÍ)
+  const subjects = [
+    {
+      id: 'li',
+      name: 'Cô Phú (Vật Lí)', // Đổi tên hiển thị cho rõ ràng
+      color: '#2a9d8f',
+      // *** ĐẢM BẢO TỆP 'li.jpg' NẰM TRONG THƯ MỤC 'image/' ***
+      image: 'li.jpg', 
+      messages: [
+     '“Chúc cô Phú luôn mạnh khỏe, hạnh phúc và tràn đầy nhiệt huyết trong sự nghiệp trồng người. Cảm ơn cô vì những bài giảng Vật lí sâu sắc, giúp chúng em hiểu hơn về những quy luật vận hành tuyệt vời của thế giới xung quanh.”',
+      '“Chúc cô Phú thật nhiều sức khỏe và niềm vui. Cảm ơn cô đã luôn tận tâm giúp chúng em tiếp cận Vật lí một cách rõ ràng, dễ hiểu và đầy hứng thú.”',
+      '“Chúc cô Phú – người truyền năng lượng tích cực như một nguồn điện không bao giờ tắt – luôn bình an và hạnh phúc. Cảm ơn cô vì đã giúp chúng em khám phá thế giới khoa học đầy thú vị qua từng bài học Vật lí.”',
+      ]
+    }
+  ];
+
+  // XÓA HÀM createSubjectImage VÌ KHÔNG CẦN DÙNG NỮA
+
+  // Hiển thị môn và hiệu ứng nhấp nháy từng ký tự
+  function showSubject(subject) {
+    const display = document.getElementById('subjectDisplay');
+    // Chọn ngẫu nhiên một lời chúc
+    const msg = subject.messages[Math.floor(Math.random() * subject.messages.length)];
+      
+    // *** DÙNG TRỰC TIẾP ĐƯỜNG DẪN ẢNH TỪ DỮ LIỆU subjects ***
+    const imgSource = subject.image; 
+
+    // Tách từng ký tự thành span với delay khác nhau, giữ khoảng trắng
+    let messageHTML = '';
+    for (let i = 0; i < msg.length; i++) {
+      let char = msg[i] === ' ' ? '\u00A0' : msg[i]; // giữ khoảng trắng
+      messageHTML += `<span style="animation-delay: ${i * 0.1}s">${char}</span>`;
+    }
+
+    display.innerHTML = `
+      <img src="${imgSource}" alt="Ảnh cô ${subject.name}" />
+      <div class="subject-message">${messageHTML}</div>
+    `;
+    display.setAttribute('aria-hidden', 'false');
+  }
+
+  // Falling letters
+  const letters = ['❤️', '💐', '🌹', '🎉', '⭐', '✨', '💝', '🎁'];
+  function createFallingLetter() {
+    const el = document.createElement('div');
+    el.className = 'falling-letter';
+    el.textContent = letters[Math.floor(Math.random() * letters.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+  setInterval(createFallingLetter, 500);
+
+  // Floating wishes
+  const wishes = [
+    'Cảm ơn cô!', 'Chúc cô sức khỏe!', 'Cô tuyệt vời nhất!',
+    'Chúc cô hạnh phúc!', 'Luôn yêu quý cô!'
+  ];
+
+  function createWish() {
+    const w = document.createElement('div');
+    w.className = 'floating-wish';
+    w.textContent = wishes[Math.floor(Math.random() * wishes.length)];
+    w.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+    w.style.top = window.innerHeight + 'px';
+    document.body.appendChild(w);
+    setTimeout(() => w.remove(), 4000);
+  }
+  setInterval(createWish, 1500);
+
+  // Button
+  const liBtn = document.querySelector('[data-subject-id="li"]');
+  // Khi click, gọi hàm showSubject với dữ liệu của Cô Phú (subjects[0])
+  liBtn.addEventListener('click', () => showSubject(subjects[0]));
+
+  // Music
+  let musicStarted = false;
+  const bgm = document.getElementById('backgroundMusic');
+  const toggle = document.getElementById('musicToggle');
+  const promptBox = document.getElementById('musicPrompt');
+
+  function updateToggle(state) {
+    if (state) {
+      toggle.classList.remove('muted');
+      toggle.textContent = '🎵';
+    } else {
+      toggle.classList.add('muted');
+      toggle.textContent = '🔇';
+    }
+  }
+
+  bgm.addEventListener('play', () => {
+    musicStarted = true;
+    promptBox.classList.add('hidden');
+    updateToggle(true);
+  });
+  bgm.addEventListener('pause', () => updateToggle(false));
+
+  function startMusic() {
+    if (musicStarted) return;
+    const p = bgm.play();
+    // Nếu trình duyệt chặn autoplay, hiển thị hộp thoại
+    if (p) p.catch(() => promptBox.classList.remove('hidden'));
+  }
+
+  window.startMusicFromPrompt = () => startMusic();
+
+  // Toggle button
+  toggle.addEventListener('click', () => {
+    if (bgm.paused) bgm.play();
+    else bgm.pause();
+  });
+
+  // Auto-run
+  window.addEventListener('load', () => {
+    // Tự động click nút để hiển thị lời chúc và ảnh ngay khi tải trang
+    liBtn.click();
+    setTimeout(() => startMusic(), 800);
+  });
+
+  // Unlock autoplay on first interaction
+  document.addEventListener('click', startMusic, { once: true });
+</script>
